@@ -1,0 +1,33 @@
+.schedule-popup_root {
+  display: block;
+  width: 300px;
+  height: 300px;
+  background-color: rgb(137, 183, 223);
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  z-index: 9999;
+  transition: 1s;
+}
+
+.schedule-popup_root.hidden {
+  display: none;
+}
+
+.schedule-popup_header {
+    margin: 2px 10px;
+}
+
+.schedule-popup_body {
+  height: inherit;
+  border-radius: 15px 15px 0 0;
+  background-color: rgb(200, 230, 255);
+}
+
+.schedule-popup_footer {
+  text-align: right;
+  margin-right: 10px;
+  width: 100%;
+  position: relative;
+  top: 85%;
+}
