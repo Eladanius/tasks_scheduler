@@ -46,7 +46,7 @@ const SchedulePopup = ({ isVisible, setVisible, date, time, setDate, setTime }: 
         </div>
         <div className='row'>
           <span>Time:</span>
-          <input type='time' defaultValue={selectedTime} onChange={(event) => setSelectedTime(event.target.value)} />
+          <input type='time' value={selectedTime} onChange={(event) => setSelectedTime(event.target.value)} />
         </div>
         <div className='schedule-popup_footer'>
           <button className='footer_el' onClick={handleOk}>

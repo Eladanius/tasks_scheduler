@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import SchedulePopup from './subcomponents/SchedulePopup';
 import './taskComponent.css';
@@ -12,18 +13,39 @@ const TaskComponent = ({ title, content }: Props) => {
   const [schedulePopupVisible, setSchedulePopupVisible] = useState(false);
   const [scheduledDate, setScheduledDate] = useState<string>();
   const [scheduledTime, setScheduledTime] = useState<string>();
-  const [timeLeft, setTimeLeft] = useState<any>();
+  const [timeLeft, setTimeLeft] = useState<any>({});
+  const [isTimerFinished, setTimerFinished] = useState(true);
 
   useEffect(() => {
-    if (scheduledDate) {
-      const timer = setTimeout(() => {
-        setTimeLeft(calculateTimeLeft(scheduledDate || '', scheduledTime || ''));
-      }, 1000);
-
-      return () => clearTimeout(timer);
+    if (isTimerFinished) {
+      resetSchedule();
+      return;
     }
-  });
-  console.log(timeLeft);
+    const interval = setInterval(() => {
+      const timeLeft = calculateTimeLeft(scheduledDate || '', scheduledTime || '');
+      if (JSON.stringify(timeLeft) === JSON.stringify({})) {
+        resetSchedule();
+        setTimerFinished(true);
+        alert(`Task '${title}' has been ended!`)
+        return;
+      }
+      setTimeLeft(timeLeft);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isTimerFinished]);
+
+  useEffect(() => {
+    if (JSON.stringify(calculateTimeLeft(scheduledDate || '', scheduledTime || '')) !== JSON.stringify({})) {
+      setTimerFinished(false);
+    } else {
+      setTimerFinished(true);
+    }
+  }, [scheduledDate]);
+
+  const resetSchedule = () => {
+    setScheduledDate('');
+    setScheduledTime('');
+  };
 
   return (
     <>
@@ -50,6 +72,9 @@ const TaskComponent = ({ title, content }: Props) => {
           </div>
         </div>
         <div className='task_actions'>
+          <button style={{ margin: '0 5px' }} onClick={resetSchedule}>
+            Reset
+          </button>
           <button onClick={() => setSchedulePopupVisible(true)}>Schedule</button>
         </div>
       </div>
@@ -62,10 +87,10 @@ const TaskComponent = ({ title, content }: Props) => {
             return timeLeft[key] === 0 ? (
               <></>
             ) : (
-              <>
-                <h5 style={{margin:'0 4px 0 10px'}}>{key}:</h5>
+              <div key={i}>
+                <h5 style={{ margin: '0 4px 0 10px' }}>{key}:</h5>
                 <span>{timeLeft[key]}</span>
-              </>
+              </div>
             );
           })}
         </div>

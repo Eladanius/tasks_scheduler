@@ -12,9 +12,15 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 6px 3px 8px 0 #808080c7;
+  position: relative;
+  /* bottom: 9%; */
+  left: 45%;
 }
 
-.timer-icon{
+.timer-icon {
   transform: scale(2.5);
 }
 
